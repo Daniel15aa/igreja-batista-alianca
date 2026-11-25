@@ -1,0 +1,46 @@
+
+name: Rollback
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Tag da versao para rollback'
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  rollback:
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - name: Checkout da versao selecionada
+        uses: actions/checkout@v4
+        with:
+          ref: refs/tags/${{ inputs.version }}
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Executar testes
+        run: npm test
+
+      - name: Simular rollback em producao
+        env:
+          VERSION: ${{ inputs.version }}
+        run: echo "Rollback executado para a versao $VERSION"
+
+      - name: Atualizar Release Latest
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ inputs.version }}
+        run: gh release edit "$VERSION" --latest --repo "$GITHUB_REPOSITORY"
