@@ -541,10 +541,11 @@ document.getElementById('oracao').addEventListener('submit',function(ev){
 
 if (!validarMensagem(f.pedido.value)) {
     s.textContent = es
-        ? 'El mensaje debe tener al menos 10 caracteres.'
-        : 'A mensagem deve ter pelo menos 10 caracteres.';
+        ? 'El mensaje debe tener entre 10 y 500 caracteres.'
+        : 'A mensagem deve ter entre 10 e 500 caracteres.';
     return;
 }
+
   if(!f.nome.value.trim()||!f.pedido.value.trim()||!document.getElementById('ok').checked){
     s.textContent=es?'Completa tu nombre, tu pedido y la autorización.':'Preencha nome, pedido e a autorização.';return;
   }
