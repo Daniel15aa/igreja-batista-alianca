@@ -25,3 +25,14 @@ test('Desconsidera espaços nas extremidades', () => {
 test('Rejeita mensagem contendo somente espaços', () => {
     assert.equal(validarMensagem('          '), false);
 });
+test('Aceita mensagem com exatamente 500 caracteres', () => {
+    assert.equal(validarMensagem('a'.repeat(500)), true);
+});
+
+test('Rejeita mensagem com 501 caracteres', () => {
+    assert.equal(validarMensagem('a'.repeat(501)), false);
+});
+
+test('Desconsidera espacos no limite de 500 caracteres', () => {
+    assert.equal(validarMensagem('  ' + 'a'.repeat(500) + '  '), true);
+});
