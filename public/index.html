@@ -492,6 +492,7 @@ html[lang="es"] .week li.today .d::after{content:"Hoy"}
 
 <a class="top" href="#topo" aria-label="Voltar ao topo"></a>
 <div id="toast" role="status"></div>
+<script src="./validacao.js"></script>
 <script>
 var es=false,els=document.querySelectorAll('[data-es]'),bs=document.querySelectorAll('[data-lang]');
 els.forEach(function(e){e.dataset.pt=e.innerHTML});
@@ -537,6 +538,13 @@ document.getElementById('oracao').addEventListener('submit',function(ev){
   ev.preventDefault();
   var f=ev.target,s=document.getElementById('status');
   if(f.website.value){return}
+
+if (!validarMensagem(f.pedido.value)) {
+    s.textContent = es
+        ? 'El mensaje debe tener al menos 10 caracteres.'
+        : 'A mensagem deve ter pelo menos 10 caracteres.';
+    return;
+}
   if(!f.nome.value.trim()||!f.pedido.value.trim()||!document.getElementById('ok').checked){
     s.textContent=es?'Completa tu nombre, tu pedido y la autorización.':'Preencha nome, pedido e a autorização.';return;
   }
